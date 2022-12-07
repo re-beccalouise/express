@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const { engine } = require('express-handlebars');
+const fetch = require('node-fetch');
 
 const app = express();
 
@@ -36,10 +37,19 @@ app.get('/profile', (req, res) => {
 
 app.post('/random-number', (req, res) => {
     let {max} = req.body;
-    
+
     let randNum = Math.floor(Math.random() * max);
     
     res.status(200).send({randNum});
+});
+
+app.get('/api', (req, res) => {
+    //send request to api 
+    //take out just the data you want to display
+    //template that data with handlebars
+    //api.hbs
+
+    res.render('api', {data});
 });
 
 app.listen(8000, () => {

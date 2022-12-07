@@ -1,7 +1,8 @@
 const input = document.getElementById('numberInput');
 const btn = document.getElementById('btn');
+let display = document.getElementById('display');
 
-const login = async () => {
+const getRandNum = async () => {
 
     let obj = {
         max: input.value,
@@ -10,7 +11,7 @@ const login = async () => {
     console.log(obj);
     console.log(JSON.stringify(obj));
 
-    const response = await fetch('/', {
+    let response = await fetch('/random-number', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,11 +19,14 @@ const login = async () => {
         body: JSON.stringify(obj)
     });
 
-    console.log(await response.json());
+    response = await response.json();
+
+    display.textContent = response.randNum;
     //server sending back json / or .text for server sending back json
 }
 
-login();
+btn.addEventListener('click', getRandNum);
+
 
 //JSON built in object for working with json
 //parse stringify
