@@ -34,6 +34,14 @@ app.get('/profile', (req, res) => {
     res.render('profile', {username: req.query.username}); //renders page
 });
 
+app.post('/random-number', (req, res) => {
+    let {max} = req.body;
+    
+    let randNum = Math.floor(Math.random() * max);
+    
+    res.status(200).send({randNum});
+});
+
 app.listen(8000, () => {
     console.log('server listening on http://localhost:8000');
 });

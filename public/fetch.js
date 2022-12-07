@@ -1,8 +1,10 @@
+const input = document.getElementById('numberInput');
+const btn = document.getElementById('btn');
+
 const login = async () => {
 
     let obj = {
-        username: 'bec',
-        password: 'password'
+        max: input.value,
     }
 
     console.log(obj);
@@ -15,6 +17,12 @@ const login = async () => {
         },
         body: JSON.stringify(obj)
     });
+
+    console.log(await response.json());
+    //server sending back json / or .text for server sending back json
 }
 
 login();
+
+//JSON built in object for working with json
+//parse stringify
