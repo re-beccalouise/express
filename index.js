@@ -76,7 +76,12 @@ app.get('/books/:bookID', (req, res) => {
     res.send('ok');
 });
 
+app.get('*', (req, res) => {
+    res.render('404');
+});
 
+//* going to catch all routes, does it match anything>
+//must go at the very bottom, just above app.listen
 
 
 app.listen(8000, () => {
