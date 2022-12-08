@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const { engine } = require('express-handlebars');
 const fetch = require('node-fetch');
+const { runInNewContext } = require('vm');
+const { equal } = require('assert');
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
 
 
@@ -15,10 +17,16 @@ app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
+let books = [{title:'normal people', author:'sally rooney'}, {title:'ghosts', author:'dolly alderton'}];
 
 //when we get a GET request do this...
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('home', {books});
+});
+
+
+app.get('/books/:bookID', (req, res) => {
+    res.render('book', books[req.params.bookID]);
 });
 
 //when we get a POST request to '/' do this...
@@ -60,6 +68,16 @@ app.get('/api', async (req, res) => {
 
     res.render('api', obj);
 });
+
+
+app.get('/books/:bookID', (req, res) => {
+    console.log(req.params);
+
+    res.send('ok');
+});
+
+
+
 
 app.listen(8000, () => {
     console.log('server listening on http://localhost:8000');
