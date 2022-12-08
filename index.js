@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const { engine } = require('express-handlebars');
 const fetch = require('node-fetch');
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0
+
 
 const app = express();
 
@@ -43,13 +45,20 @@ app.post('/random-number', (req, res) => {
     res.status(200).send({randNum});
 });
 
-app.get('/api', (req, res) => {
-    //send request to api 
-    //take out just the data you want to display
-    //template that data with handlebars
-    //api.hbs
+app.get('/api', async (req, res) => {
 
-    res.render('api', {data});
+    let data = await fetch('https://api.openweathermap.org/data/2.5/weather?q=Liverpool,GB&units=metric&appid=857c3164a727aa134aae02a6ba1e1a77');
+
+    data = await data.json();
+    
+    let obj = {
+    description: data.weather[0].description,
+    temp: data.main.temp,
+    min: data.main.temp_min,
+    max: data.main.temp_max,
+    }
+
+    res.render('api', obj);
 });
 
 app.listen(8000, () => {
